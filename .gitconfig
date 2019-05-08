@@ -6,19 +6,26 @@
 [alias]
     co = checkout
     cob = checkout -b
+
     fe = git fetch
     fp = git fetch -p
+
     br = branch
     brd = branch -d
     brD = branch -D
+
     st = status
+
     cm = commit -m
     cp = cherry-pick
     amend = commit --amend -m
+
     po = push origin
-    pom = push origin master
     plo = pull origin
-    plom = pull origin master
+
     ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+    lsl = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate -n 10
     ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+    lll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat -n 10
     lg = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --graph
+    lgl = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --graph -n 10
