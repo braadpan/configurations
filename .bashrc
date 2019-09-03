@@ -1,101 +1,83 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
+# Enable colored prompt
+force_color_prompt=yes
 
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+# Shortcut for general update
+alias update='sudo apt-get update && sudo apt-get -y upgrade'
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-alias ls='ls -F --color=auto'
+alias ls='ls -F'
 alias ll='ls -lF'
 alias la='ls -alF'
 
-# brightness shortcuts
+# Brightness shortcuts
 alias x0='xbacklight -set 0'
 alias x100='xbacklight -set 100'
 alias xinc='xbacklight -inc 20'
 alias xdec='xbacklight -dec 20'
 
-# software aliases
+# Software aliases
 alias vivado='/opt/xilinx/Vivado/2018.3/bin/vivado &'
 alias hls='/opt/xilinx/Vivado/2018.3/bin/vivado_hls'
 alias hls_cmd='/opt/xilinx/Vivado/2018.3/bin/vivado_hls -i'
-alias quartus='sudo /opt/intelFPGA/18.1/quartus/bin/quartus &'
+alias quartus='sudo /opt/intelFPGA/18.1/quartus/bin/quartus'
+export QSYS_ROOTDIR="/opt/intelFPGA/18.1/quartus/sopc_builder/bin"
 alias quartus_pgm='/opt/intelFPGA/18.1/quartus/bin/quartus_pgm &'
 alias quartus_pgmw='/opt/intelFPGA/18.1/quartus/bin/quartus_pgmw &'
 alias modelsim='/opt/intelFPGA/18.1/modelsim_ase/bin/vsim &'
 alias matlab18='/usr/local/MATLAB/R2018a/bin/matlab -softwareopengl &'
-alias matlab='/usr/local/MATLAB/R2019a/bin/matlab -softwareopengl &'
-alias inchron='/opt/inchron/bin/Suite &'
-alias pdf='xdg-open'
+alias matlab19='/usr/local/MATLAB/R2019a/bin/matlab -softwareopengl &'
 
-# games aliases
-alias xonotic='cd /usr/games/Xonotic/ && ./xonotic-linux64-glx'
 alias urban='/usr/games/UrbanTerror43/Quake3-UrT.x86_64'
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
+# Prompt: '<blue path>[Colored Git info]$ '
+PS1='\[\033[01;34m\]\w\[\033[00m\]$(git_prompt)\[\033[00m\]\$ '
 
-export QSYS_ROOTDIR="/opt/intelFPGA/18.1/quartus/sopc_builder/bin"
+git_branch() {
+    git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+git_status() {
+    # ! unstaged changes are present, ? untracked files are present
+    # S changes have been stashed, P local commits need to be pushed to the remote
+    local status="$(git status --porcelain 2>/dev/null)"
+    local output=''
+    [[ -n $(egrep '^[MADRC]' <<<"$status") ]] && output="$output+"
+    [[ -n $(egrep '^.[MD]' <<<"$status") ]] && output="$output!"
+    [[ -n $(egrep '^\?\?' <<<"$status") ]] && output="$output?"
+    [[ -n $(git stash list) ]] && output="${output}S"
+    [[ -n $(git log --branches --not --remotes) ]] && output="${output}P"
+    [[ -n $output ]] && output="|$output"  # separate from branch name
+    echo $output
+}
+
+git_color() {
+    # - White if everything is clean, green if all changes are staged
+    # - Red if there are uncommitted changes with nothing staged
+    # - Yellow if there are both staged and unstaged changes
+    # - Blue if there are unpushed commits
+    local staged=$([[ $1 =~ \+ ]] && echo yes)
+    local dirty=$([[ $1 =~ [!\?] ]] && echo yes)
+    local needs_push=$([[ $1 =~ P ]] && echo yes)
+    if [[ -n $staged ]] && [[ -n $dirty ]]; then
+        echo -e '\033[1;33m'  # bold yellow
+    elif [[ -n $staged ]]; then
+        echo -e '\033[1;32m'  # bold green
+    elif [[ -n $dirty ]]; then
+        echo -e '\033[1;31m'  # bold red
+    elif [[ -n $needs_push ]]; then
+        echo -e '\033[1;34m' # bold blue
+    else
+        echo -e '\033[1;37m'  # bold white
+    fi
+}
+
+git_prompt() {
+    local branch=$(git_branch)
+    if [[ -n $branch ]]; then
+        local state=$(git_status)
+        local color=$(git_color $state)
+        # Now output the actual code to insert the branch and status
+        echo -e "\x01$color\x02[$branch$state]\x01\033[00m\x02"  # last bit resets color
+    fi
+}
+
+
