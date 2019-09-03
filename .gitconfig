@@ -1,8 +1,10 @@
 [user]
 	email = guidoadriaans@msn.com
 	name = braadpan
+
 [core]
 	editor = vim
+
 [alias]
     co = checkout
     cob = checkout -b
