@@ -28,6 +28,7 @@ alias matlab19='/usr/local/MATLAB/R2019a/bin/matlab -softwareopengl &'
 
 alias urban='/usr/games/UrbanTerror43/Quake3-UrT.x86_64'
 
+# Prompt code copied from https://github.com/jcgoble3/gitstuff/blob/master/gitprompt.sh
 # Prompt: '<blue path>[Colored Git info]$ '
 PS1='\[\033[01;34m\]\w\[\033[00m\]$(git_prompt)\[\033[00m\]\$ '
 
