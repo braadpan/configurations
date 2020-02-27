@@ -5,6 +5,12 @@
 [core]
 	editor = vim
 
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    ui = auto
+
 [alias]
     co = checkout
     cob = checkout -b
@@ -21,13 +27,21 @@
     amend = commit --amend -m
  
     unstage = reset HEAD --
-    dif = diff
-    difs = diff --staged
+    dif = diff --color-words
+    dift = difftool
+    difs = diff --staged --color-words
+    difst = difftool --staged
  
     pso = push origin
     plr = pull -r
  
-    lll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
-    ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat -n 10
-    lsl = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --graph
-    ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --graph -n 10
+    lll = log --pretty=format:%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn] --decorate --numstat
+    ll = log --pretty=format:%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn] --decorate --numstat -n 10
+    lsl = log --pretty=format:%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn] --decorate --graph
+    ls = log --pretty=format:%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn] --decorate --graph -n 10
+
+[diff]
+    tool = vimdiff3
+
+[difftool]
+    prompt = false
