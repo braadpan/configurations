@@ -19,8 +19,8 @@
     fep = fetch -p
  
     br = branch
- 
     st = status
+    stat = diff --stat
  
     cm = commit -m
     cp = cherry-pick

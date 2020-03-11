@@ -1,6 +1,7 @@
 syntax on           " Enable syntax highlighting
 filetype plugin indent on
 
+" Colorscheme
 set background=dark
 colorscheme gruvbox8
 

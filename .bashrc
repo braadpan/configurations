@@ -1,44 +1,27 @@
+# Fix something of the terminal
+stty erase '^?'
+
 # Enable colored prompt
+[ -z "$TMUX" ] && export TERM=xterm-256color
 force_color_prompt=yes
 
 # To fix Vivado GUI problems via X11 forwarding
 export LC_ALL=en_US.UTF-8
 
+# Trim path
+PROMPT_DIRTRIM=4
+
 # Aliases
-alias update='sudo apt-get update && sudo apt-get -y upgrade'
+alias pwd='pwd -P' # avoid symlinks
+alias update='sudo apt-get update && sudo apt-get -y upgrade' # Update everything
 alias ls='ls -F --color'
 alias ll='ls -lF --color'
 alias la='ls -alF --color'
-
-# Brightness shortcuts
-alias x0='xbacklight -set 0'
-alias x100='xbacklight -set 100'
-alias xinc='xbacklight -inc 20'
-alias xdec='xbacklight -dec 20'
-
-# GNAT and ghdl
-export PATH="$PATH:/opt/GNAT/2019/bin"
-export PATH="$PATH:/usr/local/bin"
-
-# Sigasi
-export PATH="$PATH:/opt/sigasi"
-
-# Xilinx
-alias vivado='/opt/xilinx/Vivado/2018.3/bin/vivado &'
-alias hls='/opt/xilinx/Vivado/2018.3/bin/vivado_hls'
-run_hls () {
-    /opt/xilinx/Vivado/2018.3/bin/vivado_hls -f $1
-}
-alias hls_cmd='/opt/xilinx/Vivado/2018.3/bin/vivado_hls -i'
-
-# Intel/Altera
-program_fpga () {
-    quartus_pgm -m jtag -o "p;$1@2"
-}
-
-export QSYS_ROOTDIR="/opt/intelFPGA/18.1/quartus/sopc_builder/bin"
-export PATH="$PATH:/opt/intelFPGA/18.1/modelsim_ase/bin" 
-export PATH="$PATH:/opt/intelFPGA/18.1/quartus/bin" 
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias mkdir='mkdir -p -v'
 
 # MathWorks
 alias matlab18='/usr/local/MATLAB/R2018a/bin/matlab -softwareopengl &'
@@ -47,6 +30,25 @@ alias matlab19b='/usr/local/MATLAB/R2019b/bin/matlab -softwareopengl &'
 
 # Other alias
 alias urban='/usr/games/UrbanTerror43/Quake3-UrT.x86_64'
+
+# Brightness shortcuts
+alias x0='xbacklight -set 0'
+alias x100='xbacklight -set 100'
+alias xinc='xbacklight -inc 20'
+alias xdec='xbacklight -dec 20'
+
+# Path
+export PATH="$PATH:/opt/GNAT/2019/bin"
+export PATH="$PATH:/usr/local/bin"
+export PATH="$PATH:/opt/sigasi"
+export PATH="$PATH:/opt/xilinx/Vivado/2018.3/bin"
+export QSYS_ROOTDIR="/opt/intelFPGA/18.1/quartus/sopc_builder/bin"
+export PATH="$PATH:/opt/intelFPGA/18.1/modelsim_ase/bin" 
+export PATH="$PATH:/opt/intelFPGA/18.1/quartus/bin" 
+
+program_fpga () {
+    quartus_pgm -m jtag -o "p;$1@2"
+}
 
 extract () {
    if [ -f $1 ] ; then
