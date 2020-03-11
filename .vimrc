@@ -1,27 +1,39 @@
 syntax on           " Enable syntax highlighting
+filetype plugin indent on
 
-set nocompatible    " No idea why
-set hidden          " Enable unsaved file switching
-set wildmenu        " Better command line completion
-set autoindent      " Always set autoindenting on
-set nrformats=      " Numerals as decimals.
-set number          " Line numbers
-set hlsearch        " Highlight searches
-set showcmd         " Show partial commands in last line
-set ignorecase      " Ignore case in search
-set smartcase       " Except when using capitals
-set ruler           " Show cursor position in last line
-set laststatus=2    " Always display status line
-set cmdheight=2     " Set command height to 2
-set showmatch       " Show matching bracket
-set mouse=a         " Enable mouse for all modes
-set nowrap          " Disable wrapping
+set background=dark
+colorscheme gruvbox8
+
+set nocompatible       " No idea why
+set hidden             " Enable unsaved file switching
+set wildmenu           " Better command line completion
+set autoindent         " Always set autoindenting on
+set nrformats=         " Numerals as decimals.
+set number             " Line numbers
+set hlsearch           " Highlight searches
+set showcmd            " Show partial commands in last line
+set ignorecase         " Ignore case in search
+set smartcase          " Except when using capitals
+set ruler              " Show cursor position in last line
+set laststatus=2       " Always display status line
+set cmdheight=2        " Set command height to 2
+set showmatch          " Show matching bracket
+set mouse=a            " Enable mouse for all modes
+set nowrap             " Disable wrapping
+set formatoptions-=cro " Disables automatic comment insertion
 
 " Tab settings
 filetype plugin indent on   " Filetype specific tab setting
 set tabstop=4               " Show tab as 4 spaces
 set shiftwidth=4            " Use 4 spaces when indenting with >
 set expandtab               " Insert spaces when tabbing
+
+" Cursor settings
+autocmd InsertEnter,InsertLeave * set cul!
+
+" Open new split to the right and bottom
+set splitbelow
+set splitright
 
 " Set leader to space
 let mapleader = " "
@@ -37,6 +49,10 @@ nnoremap <leader><space> :noh<CR>
 
 " Close buffer without closing window
 map <leader>q :b#<bar>bd#<cr>
+
+" Create blank newlines and stay in normal mode
+nnoremap <silent> zj o<Esc>
+nnoremap <silent> zk O<Esc>
 
 " Easier switching between windows, allow control to be hold down
 nnoremap <C-J> <C-W><C-J>
