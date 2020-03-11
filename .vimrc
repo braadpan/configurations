@@ -5,12 +5,14 @@ filetype plugin indent on
 set background=dark
 colorscheme gruvbox8
 
+set t_ut=              " Fix tmux/vim background issue
+set t_Co=256           " Use 256 colors
 set nocompatible       " No idea why
 set hidden             " Enable unsaved file switching
 set wildmenu           " Better command line completion
 set autoindent         " Always set autoindenting on
 set nrformats=         " Numerals as decimals.
-set number             " Line numbers
+set relativenumber     " Relative line numbers
 set hlsearch           " Highlight searches
 set showcmd            " Show partial commands in last line
 set ignorecase         " Ignore case in search
@@ -22,9 +24,9 @@ set showmatch          " Show matching bracket
 set mouse=a            " Enable mouse for all modes
 set nowrap             " Disable wrapping
 set formatoptions-=cro " Disables automatic comment insertion
+set scrolloff=3        " Minimum number of lines around cursor
 
 " Tab settings
-filetype plugin indent on   " Filetype specific tab setting
 set tabstop=4               " Show tab as 4 spaces
 set shiftwidth=4            " Use 4 spaces when indenting with >
 set expandtab               " Insert spaces when tabbing
@@ -61,21 +63,12 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" Remapping
-nnoremap [a :previous<CR>
-nnoremap ]a :next<CR>
-nnoremap [A :first<CR>
-nnoremap ]A :last<CR>
 " Buffer remapping
 nnoremap [b :bprevious<CR>
 nnoremap ]b :bnext<CR>
-nnoremap [B :bfirst<CR>
-nnoremap ]B :blast<CR>
 " Tab remapping
 nnoremap [t :tprevious<CR>
 nnoremap ]t :tnext<CR>
-nnoremap [T :tfirst<CR>
-nnoremap ]T :tlast<CR>
 
 " Set syntax for .do files to tcl
 autocmd BufNewFile,BufRead *.do set syntax=tcl
