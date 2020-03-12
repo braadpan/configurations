@@ -25,27 +25,34 @@ set mouse=a            " Enable mouse for all modes
 set nowrap             " Disable wrapping
 set scrolloff=3        " Minimum number of lines around cursor
 
+" Auto reload file when changed
+set autoread           
+au CursorHold * checktime
+
 " Tab settings
 set tabstop=4               " Show tab as 4 spaces
 set shiftwidth=4            " Use 4 spaces when indenting with >
 set expandtab               " Insert spaces when tabbing
 
+" Set leader to space
+let mapleader = " "
+
 " Disables automatic comment insertion
 autocmd BufNewFile,BufRead * setlocal formatoptions-=cro 
+
+" Cursor settings
+autocmd InsertEnter,InsertLeave * set cul!
+
+" Set syntax for .do files to tcl
+autocmd BufNewFile,BufRead *.do set syntax=tcl
 
 " vimrc: auto reload and edit shortcut
 autocmd bufwritepost .vimrc source $MYVIMRC
 map <leader>v :split $MYVIMRC<cr>
  
-" Cursor settings
-autocmd InsertEnter,InsertLeave * set cul!
-
 " Open new split to the right and bottom
 set splitbelow
 set splitright
-
-" Set leader to space
-let mapleader = " "
 
 " Go to normal mode using jj
 inoremap jj <ESC>
@@ -76,8 +83,11 @@ nnoremap ]b :bnext<CR>
 nnoremap [t :tprevious<CR>
 nnoremap ]t :tnext<CR>
 
-" Set syntax for .do files to tcl
-autocmd BufNewFile,BufRead *.do set syntax=tcl
+" netrw
+let g:netrw_liststyle=3     " Tree view
+let g:netrw_banner=0        " Remove banner
+let g:netrw_browse_split=4  " Open in previous window
+let g:netrw_winsize=25      " Set width to 25%
 
 "==============================================================
 " Save current view settings on a per-window, per-buffer basis.
