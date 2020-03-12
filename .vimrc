@@ -23,7 +23,6 @@ set cmdheight=2        " Set command height to 2
 set showmatch          " Show matching bracket
 set mouse=a            " Enable mouse for all modes
 set nowrap             " Disable wrapping
-set formatoptions-=cro " Disables automatic comment insertion
 set scrolloff=3        " Minimum number of lines around cursor
 
 " Tab settings
@@ -31,6 +30,13 @@ set tabstop=4               " Show tab as 4 spaces
 set shiftwidth=4            " Use 4 spaces when indenting with >
 set expandtab               " Insert spaces when tabbing
 
+" Disables automatic comment insertion
+autocmd BufNewFile,BufRead * setlocal formatoptions-=cro 
+
+" vimrc: auto reload and edit shortcut
+autocmd bufwritepost .vimrc source $MYVIMRC
+map <leader>v :split $MYVIMRC<cr>
+ 
 " Cursor settings
 autocmd InsertEnter,InsertLeave * set cul!
 
