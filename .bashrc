@@ -23,6 +23,10 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias mkdir='mkdir -p -v'
 
+alias py='python3'
+alias python='python3'
+alias pip='python3 -m pip'
+
 # MathWorks
 alias matlab18='/usr/local/MATLAB/R2018a/bin/matlab -softwareopengl &'
 alias matlab19a='/usr/local/MATLAB/R2019a/bin/matlab -softwareopengl &'
@@ -38,6 +42,8 @@ alias xinc='xbacklight -inc 20'
 alias xdec='xbacklight -dec 20'
 
 # Path
+export PATH="$PATH:."
+export PATH="$PATH:~/.local/bin"
 export PATH="$PATH:/opt/GNAT/2019/bin"
 export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:/opt/sigasi"
