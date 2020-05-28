@@ -16,6 +16,7 @@ alias pwd='pwd -P' # avoid symlinks
 alias update='sudo apt-get update && sudo apt-get -y upgrade' # Update everything
 alias ls='ls -F --color'
 alias ll='ls -lF --color'
+alias l='ll'
 alias la='ls -alF --color'
 alias ..='cd ..'
 alias ...='cd ../..'
