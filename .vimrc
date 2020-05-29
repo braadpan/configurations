@@ -83,6 +83,9 @@ nnoremap ]b :bnext<CR>
 nnoremap [t :tprevious<CR>
 nnoremap ]t :tnext<CR>
 
+" Open buffer list and open buffer 
+nnoremap gb :ls<CR>:b<Space>
+
 " netrw
 let g:netrw_liststyle=3     " Tree view
 let g:netrw_banner=0        " Remove banner
