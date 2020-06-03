@@ -24,15 +24,25 @@ set showmatch          " Show matching bracket
 set mouse=a            " Enable mouse for all modes
 set nowrap             " Disable wrapping
 set scrolloff=3        " Minimum number of lines around cursor
+set fileformat=unix    " Fileformat
 
-" Auto reload file when changed
-set autoread           
-au CursorHold * checktime
+" Folding
+set foldmethod=indent  " Enable folding
+set foldlevel=99
+set nofoldenable       " Open file without folds
 
 " Tab settings
 set tabstop=4               " Show tab as 4 spaces
 set shiftwidth=4            " Use 4 spaces when indenting with >
 set expandtab               " Insert spaces when tabbing
+
+" Mark extraneous whitespace
+highlight ExtraWhitespace ctermbg=darkgrey
+autocmd BufRead,BufNewFile * match ExtraWhitespace /\s\+$/
+
+" Auto reload file when changed
+set autoread           
+autocmd CursorHold * checktime
 
 " Set leader to space
 let mapleader = " "
