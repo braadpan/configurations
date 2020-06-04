@@ -36,19 +36,26 @@ set tabstop=4               " Show tab as 4 spaces
 set shiftwidth=4            " Use 4 spaces when indenting with >
 set expandtab               " Insert spaces when tabbing
 
-" Mark extraneous whitespace
-highlight ExtraWhitespace ctermbg=darkgrey
-autocmd BufRead,BufNewFile * match ExtraWhitespace /\s\+$/
+" Remove mark
+nnoremap <F2> :match<Cr>
+" Mark and remove tabs
+highlight HlTabs ctermbg=red
+nnoremap <F3> :match HlTabs /\t/<Cr>
+nnoremap <F4> :retab<Cr>
+" Mark and remove trailing whitespace
+highlight HlExtraWhitespace ctermbg=green
+nnoremap <F5> :match HlExtraWhitespace /\s\+$/<Cr>
+nnoremap <F6> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><Cr>
 
 " Auto reload file when changed
-set autoread           
+set autoread
 autocmd CursorHold * checktime
 
 " Set leader to space
 let mapleader = " "
 
 " Disables automatic comment insertion
-autocmd BufNewFile,BufRead * setlocal formatoptions-=cro 
+autocmd BufNewFile,BufRead * setlocal formatoptions-=cro
 
 " Cursor settings
 autocmd InsertEnter,InsertLeave * set cul!
@@ -57,9 +64,9 @@ autocmd InsertEnter,InsertLeave * set cul!
 autocmd BufNewFile,BufRead *.do set syntax=tcl
 
 " vimrc: auto reload and edit shortcut
-autocmd bufwritepost .vimrc source $MYVIMRC
-map <leader>v :split $MYVIMRC<cr>
- 
+"autocmd bufwritepost .vimrc source $MYVIMRC
+noremap <leader>v :split $MYVIMRC<Cr>
+
 " Open new split to the right and bottom
 set splitbelow
 set splitright
@@ -74,7 +81,7 @@ noremap x "_x
 nnoremap <leader><space> :noh<CR>
 
 " Close buffer without closing window
-map <leader>q :b#<bar>bd#<cr>
+noremap <leader>q :bd<cr>
 
 " Create blank newlines and stay in normal mode
 nnoremap <silent> zj o<Esc>
@@ -93,7 +100,7 @@ nnoremap ]b :bnext<CR>
 nnoremap [t :tprevious<CR>
 nnoremap ]t :tnext<CR>
 
-" Open buffer list and open buffer 
+" Open buffer list and open buffer
 nnoremap gb :ls<CR>:b<Space>
 
 " netrw
